@@ -1,0 +1,32 @@
+
+#ifdef _WIN32
+#pragma warning(disable : 4251)
+#ifdef COlMAP_DYNAMIC
+#ifdef COLMAP_ENGINE
+#define COLMAP_EXPORT __declspec(dllexport)
+#else
+#define COLMAP_EXPORT __declspec(dllimport)
+#endif
+#else
+#define COLMAP_EXPORT
+#endif
+#define COLMAP_HIDDEN
+#else
+#define COLMAP_EXPORT __attribute__((visibility("default")))
+#define COLMAP_HIDDEN __attribute__((visibility("hidden")))
+#endif
+#include <string>
+#include <memory>
+namespace colmap {
+    class AutomaticReconstructionController;
+}
+
+struct COLMAP_EXPORT ColmapSparseReconstruct {
+    struct Option {
+        std::string image_path;
+        std::string workspace_path;
+    }option;
+    int GetSparseReconstructPhase();
+    float GetProgressOnCurrentPhase();
+    auto run()->void;
+};

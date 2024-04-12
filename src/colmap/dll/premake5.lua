@@ -8,6 +8,7 @@ project "colmap"
 		"**.h",
 		"**.c",
 		"**.cc",
+        "**.cpp",
         -- "src/**.cu"
 	}
 

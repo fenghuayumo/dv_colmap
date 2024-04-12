@@ -28,5 +28,5 @@ struct COLMAP_EXPORT ColmapSparseReconstruct {
     }option;
     int GetSparseReconstructPhase();
     float GetProgressOnCurrentPhase();
-    auto run()->void;
+    auto run()->bool;
 };

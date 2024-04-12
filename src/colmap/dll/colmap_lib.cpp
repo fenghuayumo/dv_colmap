@@ -6,7 +6,7 @@
 
 std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
 
-auto ColmapSparseReconstruct::run() ->void
+auto ColmapSparseReconstruct::run() ->bool
 {
    colmap::AutomaticReconstructionController::Options _option;
     _option.image_path = option.image_path;
@@ -27,6 +27,8 @@ auto ColmapSparseReconstruct::run() ->void
 
     controller_->Start();
     controller_->Wait();
+    if(controller_->GetSparseReconstructPhase() != 4) return false;
+    return true;
 }
 
   int ColmapSparseReconstruct::GetSparseReconstructPhase()

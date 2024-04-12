@@ -149,11 +149,11 @@ int AutomaticReconstructionController::GetSparseReconstructPhase() {
 }
 
 float AutomaticReconstructionController::GetProgressOnCurrentPhase() {
-  if (status_phase == 0) {
+  if (status_phase == 1) {
     return feature_extractor_->GetProgress();
-  } else if (status_phase == 1) {
-    return exhaustive_matcher_->GetProgress();
   } else if (status_phase == 2) {
+    return exhaustive_matcher_->GetProgress();
+  } else if (status_phase == 3) {
     return incremental_mapper->GetProgress();
   }
   return 1.0f;
@@ -163,19 +163,19 @@ void AutomaticReconstructionController::Run() {
   if (IsStopped()) {
     return;
   }
-  status_phase = 0;
+  status_phase = 1;
   RunFeatureExtraction();
 
   if (IsStopped()) {
     return;
   }
-  status_phase = 1;
+  status_phase = 2;
   RunFeatureMatching();
 
   if (IsStopped()) {
     return;
   }
-  status_phase = 2;
+  status_phase = 3;
   if (options_.sparse) {
     RunSparseMapper();
   }
@@ -183,7 +183,7 @@ void AutomaticReconstructionController::Run() {
   if (IsStopped()) {
     return;
   }
-  status_phase = 3;
+  status_phase = 4;
 
   if (options_.dense) {
     RunDenseMapper();

@@ -175,7 +175,6 @@ void AutomaticReconstructionController::Run() {
   if (IsStopped()) {
     return;
   }
-  status_phase = 3;
   if (options_.sparse) {
     RunSparseMapper();
   }
@@ -196,7 +195,7 @@ void AutomaticReconstructionController::RunFeatureExtraction() {
   active_thread_ = feature_extractor_.get();
   feature_extractor_->Start();
   feature_extractor_->Wait();
-  feature_extractor_.reset();
+  //feature_extractor_.reset();
   active_thread_ = nullptr;
 }
 
@@ -219,7 +218,7 @@ void AutomaticReconstructionController::RunFeatureMatching() {
   active_thread_ = matcher;
   matcher->Start();
   matcher->Wait();
-  exhaustive_matcher_.reset();
+  //exhaustive_matcher_.reset();
   sequential_matcher_.reset();
   vocab_tree_matcher_.reset();
   active_thread_ = nullptr;
@@ -244,6 +243,8 @@ void AutomaticReconstructionController::RunSparseMapper() {
                                      *option_manager_.image_path,
                                      *option_manager_.database_path,
                                      reconstruction_manager_);
+  status_phase = 3;
+
   incremental_mapper->SetCheckIfStoppedFunc([&]() { return IsStopped(); });
   incremental_mapper->Run();
 

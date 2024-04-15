@@ -4,7 +4,7 @@
 #include <colmap/util/controller_thread.h>
 #include <colmap/controllers/incremental_mapper.h>
 
-std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
+//std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
 
 auto ColmapSparseReconstruct::run() ->bool
 {
@@ -13,7 +13,7 @@ auto ColmapSparseReconstruct::run() ->bool
     _option.workspace_path = option.workspace_path;
     _option.quality = colmap::AutomaticReconstructionController::Quality::HIGH;
     _option.use_gpu = true;
-    _option.gpu_index = "0";
+    _option.gpu_index = std::to_string(option.gpu_index);
     _option.sparse = true;
     _option.dense =  false;
     _option.data_type =
@@ -22,8 +22,8 @@ auto ColmapSparseReconstruct::run() ->bool
     std::shared_ptr<colmap::ReconstructionManager> reconstruction_manager_ =
         std::make_shared<colmap::ReconstructionManager>();
 
-    controller_.reset(new colmap::AutomaticReconstructionController(
-        _option, reconstruction_manager_));
+    controller_ = std::make_shared<colmap::AutomaticReconstructionController>(
+        _option, reconstruction_manager_);
 
     controller_->Start();
     controller_->Wait();
@@ -31,11 +31,17 @@ auto ColmapSparseReconstruct::run() ->bool
     return true;
 }
 
-  int ColmapSparseReconstruct::GetSparseReconstructPhase()
+ColmapSparseReconstruct::~ColmapSparseReconstruct()
+{
+}
+
+int ColmapSparseReconstruct::GetSparseReconstructPhase()
   {
+    if( controller_ == nullptr) return 0;
     return controller_->GetSparseReconstructPhase();
   }
   float ColmapSparseReconstruct::GetProgressOnCurrentPhase()
   {
+    if (controller_ == nullptr) return 0;
     return controller_->GetProgressOnCurrentPhase();
   }

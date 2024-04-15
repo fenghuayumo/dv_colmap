@@ -22,11 +22,15 @@ namespace colmap {
 }
 
 struct COLMAP_EXPORT ColmapSparseReconstruct {
+    ~ColmapSparseReconstruct();
     struct Option {
         std::string image_path;
         std::string workspace_path;
+        int gpu_index = 0;
     }option;
     int GetSparseReconstructPhase();
     float GetProgressOnCurrentPhase();
     auto run()->bool;
+
+    std::shared_ptr<colmap::AutomaticReconstructionController>  controller_;
 };

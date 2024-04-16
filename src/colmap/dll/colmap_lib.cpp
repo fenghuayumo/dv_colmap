@@ -16,6 +16,7 @@ auto ColmapSparseReconstruct::run() ->bool
     _option.gpu_index = std::to_string(option.gpu_index);
     _option.sparse = true;
     _option.dense =  false;
+    _option.camera_model = option.camera_model;
     _option.data_type =
         colmap::AutomaticReconstructionController::DataType::INDIVIDUAL;
 

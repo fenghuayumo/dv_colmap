@@ -39,6 +39,7 @@ project "colmap_feature"
 	{
         "GLOG_USE_GLOG_EXPORT",
         "GLOG_VERSION_MAJOR 1",
+        "COLMAP_CUDA_ENABLED"
     }
 
     buildcustomizations {cudaBuildCustomizations}

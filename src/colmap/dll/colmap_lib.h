@@ -26,7 +26,8 @@ struct COLMAP_EXPORT ColmapSparseReconstruct {
     struct Option {
         std::string image_path;
         std::string workspace_path;
-        int gpu_index = 0;
+        int gpu_index = -1;
+        std::string camera_model= "SIMPLE_PINHOLE";
     }option;
     int GetSparseReconstructPhase();
     float GetProgressOnCurrentPhase();

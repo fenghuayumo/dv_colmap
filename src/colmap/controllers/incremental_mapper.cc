@@ -441,6 +441,7 @@ IncrementalMapperController::ReconstructSubModel(
     if (!reg_next_success && prev_reg_next_success) {
       IterativeGlobalRefinement(*options_, mapper_options, mapper);
     }
+    progress_ = float(next_image_id)/ reconstruction->NumImages();
   } while (reg_next_success || prev_reg_next_success);
 
   if (CheckIfStopped()) {
@@ -534,7 +535,6 @@ void IncrementalMapperController::Reconstruct(
       default:
         LOG(FATAL_THROW) << "Unknown reconstruction status.";
     }
-    progress_ = (float)num_trials / options_->init_num_trials;
   }
 }
 

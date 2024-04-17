@@ -11,7 +11,7 @@ auto ColmapSparseReconstruct::run() ->bool
    colmap::AutomaticReconstructionController::Options _option;
     _option.image_path = option.image_path;
     _option.workspace_path = option.workspace_path;
-    _option.quality = colmap::AutomaticReconstructionController::Quality::HIGH;
+    _option.quality = colmap::AutomaticReconstructionController::Quality::MEDIUM;
     _option.use_gpu = true;
     _option.gpu_index = std::to_string(option.gpu_index);
     _option.sparse = true;
@@ -19,7 +19,8 @@ auto ColmapSparseReconstruct::run() ->bool
     _option.camera_model = option.camera_model;
     _option.data_type =
         colmap::AutomaticReconstructionController::DataType::INDIVIDUAL;
-
+    _option.mesher =
+        colmap::AutomaticReconstructionController::Mesher::POISSON;
     std::shared_ptr<colmap::ReconstructionManager> reconstruction_manager_ =
         std::make_shared<colmap::ReconstructionManager>();
 

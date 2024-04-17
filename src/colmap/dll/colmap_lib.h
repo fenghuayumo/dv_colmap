@@ -17,6 +17,7 @@
 #endif
 #include <string>
 #include <memory>
+
 namespace colmap {
     class AutomaticReconstructionController;
 }

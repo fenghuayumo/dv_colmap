@@ -441,7 +441,7 @@ IncrementalMapperController::ReconstructSubModel(
     if (!reg_next_success && prev_reg_next_success) {
       IterativeGlobalRefinement(*options_, mapper_options, mapper);
     }
-    progress_ = float(next_image_id)/ reconstruction->NumImages();
+    progress_ = float(reconstruction->NumRegImages())/ reconstruction->NumImages();
   } while (reg_next_success || prev_reg_next_success);
 
   if (CheckIfStopped()) {

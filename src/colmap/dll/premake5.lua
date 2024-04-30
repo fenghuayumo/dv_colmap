@@ -56,8 +56,8 @@ project "colmap"
 	{
         "GLOG_USE_GLOG_EXPORT",
         "GLOG_VERSION_MAJOR 1",
-        "COlMAP_DYNAMIC",
-        "COLMAP_ENGINE",
+        "COLMAP_BUILD_MAIN_LIB",
+        "COLMAP_BUILD_SHARED_LIBS",
         "PREMAKE_CUDA_EXPORT_API"
     }
     buildcustomizations {cudaBuildCustomizations}

@@ -1,10 +1,10 @@
-#include "colmap_lib.h"
+#include "colmap/dll/colmap_lib.h"
 
-#include <colmap/controllers/automatic_reconstruction.h>
-#include <colmap/util/controller_thread.h>
-#include <colmap/controllers/incremental_mapper.h>
+#include "colmap/controllers/automatic_reconstruction.h"
+#include "colmap/util/controller_thread.h"
+#include "colmap/controllers/incremental_mapper.h"
 
-//std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
+// std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
 
 auto ColmapSparseReconstruct::run() ->bool
 {
@@ -12,7 +12,7 @@ auto ColmapSparseReconstruct::run() ->bool
     _option.image_path = option.image_path;
     _option.workspace_path = option.workspace_path;
     _option.quality = colmap::AutomaticReconstructionController::Quality::MEDIUM;
-    _option.use_gpu = true;
+    _option.use_gpu = option.use_gpu;
     _option.gpu_index = std::to_string(option.gpu_index);
     _option.sparse = true;
     _option.dense =  false;
@@ -38,12 +38,13 @@ ColmapSparseReconstruct::~ColmapSparseReconstruct()
 }
 
 int ColmapSparseReconstruct::GetSparseReconstructPhase()
-  {
-    if( controller_ == nullptr) return 0;
-    return controller_->GetSparseReconstructPhase();
-  }
-  float ColmapSparseReconstruct::GetProgressOnCurrentPhase()
-  {
-    if (controller_ == nullptr) return 0;
-    return controller_->GetProgressOnCurrentPhase();
-  }
+{
+  if( controller_ == nullptr) return 0;
+  return controller_->GetSparseReconstructPhase();
+}
+
+float ColmapSparseReconstruct::GetProgressOnCurrentPhase()
+{
+  if (controller_ == nullptr) return 0;
+  return controller_->GetProgressOnCurrentPhase();
+}

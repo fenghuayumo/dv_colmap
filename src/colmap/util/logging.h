@@ -35,7 +35,7 @@
 #include <iostream>
 
 #include <glog/logging.h>
-#define GLOG_VERSION_MAJOR 1
+
 // Option checker macros. In contrast to glog, this function does not abort the
 // program, but simply returns false on failure.
 #define CHECK_OPTION_IMPL(expr) \

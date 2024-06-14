@@ -30,6 +30,7 @@ COLMAP_ADD_DLL(
         colmap_optim
         colmap_scene
         colmap_util
+        colmap_mvs
     PRIVATE_LINK_LIBS
         ${OPTIONAL_LIBS}
         Boost::boost

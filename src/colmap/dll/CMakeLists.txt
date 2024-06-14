@@ -17,7 +17,7 @@ endif()
 #         colmap_ui
 #     )
 # endif()
-# add_definitions("-DCOLMAP_BUILD_MAIN_LIB", "-DCOLMAP_BUILD_SHARED_LIBS")
+add_definitions("-DCOLMAP_BUILD_MAIN_LIB", "-DCOLMAP_BUILD_SHARED_LIBS")
 
 COLMAP_ADD_DLL(
     NAME colmap_lib

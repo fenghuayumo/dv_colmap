@@ -31,6 +31,7 @@ COLMAP_ADD_DLL(
         colmap_scene
         colmap_util
     PRIVATE_LINK_LIBS
+        ${OPTIONAL_LIBS}
         Boost::boost
 )
 # COLMAP_ADD_EXECUTABLE(

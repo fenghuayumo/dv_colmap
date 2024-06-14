@@ -33,9 +33,10 @@
 #include "colmap/mvs/image.h"
 #include "colmap/mvs/model.h"
 #include "colmap/mvs/normal_map.h"
-
+#ifndef __CUDACC__
 #include "colmap/util/base_controller.h"
 #include "colmap/util/threading.h"
+#endif
 
 #include <iostream>
 #include <memory>
@@ -243,6 +244,7 @@ class PatchMatch {
 // images. Note that all specified images must be reconstructed in the COLMAP
 // reconstruction provided in the `sparse` folder.
 
+#ifndef __CUDACC__
 
 class PatchMatchController : public BaseController {
  public:
@@ -272,6 +274,8 @@ class PatchMatchController : public BaseController {
   std::vector<int> gpu_indices_;
   std::vector<std::pair<float, float>> depth_ranges_;
 };
+
+#endif
 
 }  // namespace mvs
 }  // namespace colmap

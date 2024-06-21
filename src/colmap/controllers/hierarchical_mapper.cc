@@ -196,6 +196,7 @@ void HierarchicalMapperController::Run() {
                                            options_.database_path,
                                            std::move(reconstruction_manager));
         mapper.Run();
+        progress_ = mapper.GetProgress();
       };
 
   // Start reconstructing the bigger clusters first for better resource usage.

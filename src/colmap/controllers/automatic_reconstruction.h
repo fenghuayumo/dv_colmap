@@ -99,6 +99,8 @@ class AutomaticReconstructionController : public Thread {
     // you should separate multiple GPU indices by comma, e.g., "0,1,2,3".
     // By default, all GPUs will be used in all stages.
     std::string gpu_index = "-1";
+
+    bool use_hierachy = true;
   };
 
   AutomaticReconstructionController(
@@ -126,6 +128,7 @@ class AutomaticReconstructionController : public Thread {
   std::unique_ptr<Thread> sequential_matcher_;
   std::unique_ptr<Thread> vocab_tree_matcher_;
   std::shared_ptr<class IncrementalMapperController> incremental_mapper;
+  std::shared_ptr<class HierarchicalMapperController> hierarchical_mapper;
 };
 
 }  // namespace colmap

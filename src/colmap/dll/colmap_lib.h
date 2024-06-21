@@ -24,10 +24,16 @@ namespace colmap {
 
 struct COLMAP_EXPORT ColmapSparseReconstruct {
     ~ColmapSparseReconstruct();
+    enum class Quality {
+        Low,Medium,High
+    };
     struct Option {
         std::string image_path;
         std::string workspace_path;
         int gpu_index = -1;
+        bool video = true;
+        bool use_hierachy = true;
+        Quality quality = Quality::Low;
         std::string camera_model= "SIMPLE_PINHOLE";
     }option;
     int GetSparseReconstructPhase();

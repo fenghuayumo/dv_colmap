@@ -11,13 +11,20 @@ auto ColmapSparseReconstruct::run() ->bool
    colmap::AutomaticReconstructionController::Options _option;
     _option.image_path = option.image_path;
     _option.workspace_path = option.workspace_path;
-    _option.quality = colmap::AutomaticReconstructionController::Quality::MEDIUM;
+    if(option.quality == Quality::Low){
+        _option.quality = colmap::AutomaticReconstructionController::Quality::LOW;
+    }
+    else if (option.quality == Quality::Medium) {
+        _option.quality = colmap::AutomaticReconstructionController::Quality::MEDIUM;
+    }else
+        _option.quality = colmap::AutomaticReconstructionController::Quality::HIGH;
     _option.use_gpu = true;
     _option.gpu_index = std::to_string(option.gpu_index);
     _option.sparse = true;
     _option.dense =  false;
     _option.camera_model = option.camera_model;
-    _option.data_type =
+    _option.use_hierachy = option.use_hierachy;
+    _option.data_type = option.video ? colmap::AutomaticReconstructionController::DataType::VIDEO :
         colmap::AutomaticReconstructionController::DataType::INDIVIDUAL;
     _option.mesher =
         colmap::AutomaticReconstructionController::Mesher::POISSON;

@@ -50,14 +50,16 @@ project "colmap"
         "sqlite3",
         "glew32",
         "OpenGL32",
+        "metis",
+        "GKlib"
     }
 
 	defines
 	{
         "GLOG_USE_GLOG_EXPORT",
         "GLOG_VERSION_MAJOR 1",
-        "COlMAP_DYNAMIC",
-        "COLMAP_ENGINE",
+        "COLMAP_BUILD_MAIN_LIB",
+        "COLMAP_BUILD_SHARED_LIBS",
         "PREMAKE_CUDA_EXPORT_API"
     }
     buildcustomizations {cudaBuildCustomizations}

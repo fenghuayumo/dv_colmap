@@ -18,7 +18,7 @@ auto ColmapSparseReconstruct::run() ->bool
         _option.quality = colmap::AutomaticReconstructionController::Quality::MEDIUM;
     }else
         _option.quality = colmap::AutomaticReconstructionController::Quality::HIGH;
-    _option.use_gpu = true;
+    _option.use_gpu = option.use_gpu;
     _option.gpu_index = std::to_string(option.gpu_index);
     _option.sparse = true;
     _option.dense =  false;

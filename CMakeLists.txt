@@ -69,7 +69,8 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_STANDARD 14)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-
+set(OPENGL_gl_LIBRARY "/opt/nvidia/nsight-compute/2024.1.1/host/linux-desktop-glibc_2_11_3-x64/Mesa/libGL.so")
+set(OPENGL_glx_LIBRARY "/usr/lib/x86_64-linux-gnu/libGLX.so")
 set_property(GLOBAL PROPERTY GLOBAL_DEPENDS_NO_CYCLES ON)
 
 ################################################################################

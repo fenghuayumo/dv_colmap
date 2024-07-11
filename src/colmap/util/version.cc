@@ -35,9 +35,9 @@
 namespace colmap {
 namespace {
 
-const char* COLMAP_VERSION = "${COLMAP_VERSION}";
-const char* COLMAP_COMMIT_ID = "${GIT_COMMIT_ID}";
-const char* COLMAP_COMMIT_DATE = "${GIT_COMMIT_DATE}";
+const char* COLMAP_VERSION = "3.10-dev";
+const char* COLMAP_COMMIT_ID = "393fbc3f";
+const char* COLMAP_COMMIT_DATE = "2024-04-19";
 
 }  // namespace
 

@@ -1,10 +1,10 @@
-#include "colmap_lib.h"
+#include "colmap/dll/colmap_lib.h"
 
-#include <colmap/controllers/automatic_reconstruction.h>
-#include <colmap/util/controller_thread.h>
-#include <colmap/controllers/incremental_mapper.h>
+#include "colmap/controllers/automatic_reconstruction.h"
+#include "colmap/util/controller_thread.h"
+#include "colmap/controllers/incremental_mapper.h"
 
-//std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
+// std::unique_ptr<colmap::AutomaticReconstructionController>  controller_;
 
 auto ColmapSparseReconstruct::run() ->bool
 {
@@ -45,12 +45,13 @@ ColmapSparseReconstruct::~ColmapSparseReconstruct()
 }
 
 int ColmapSparseReconstruct::GetSparseReconstructPhase()
-  {
-    if( controller_ == nullptr) return 0;
-    return controller_->GetSparseReconstructPhase();
-  }
-  float ColmapSparseReconstruct::GetProgressOnCurrentPhase()
-  {
-    if (controller_ == nullptr) return 0;
-    return controller_->GetProgressOnCurrentPhase();
-  }
+{
+  if( controller_ == nullptr) return 0;
+  return controller_->GetSparseReconstructPhase();
+}
+
+float ColmapSparseReconstruct::GetProgressOnCurrentPhase()
+{
+  if (controller_ == nullptr) return 0;
+  return controller_->GetProgressOnCurrentPhase();
+}

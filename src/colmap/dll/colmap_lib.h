@@ -45,9 +45,12 @@ struct COLMAP_API ColmapSparseReconstruct {
         std::string image_path;
         std::string workspace_path;
         int gpu_index = -1;
+<<<<<<< HEAD
         bool video = true;
         bool use_hierachy = true;
         Quality quality = Quality::Low;
+=======
+>>>>>>> release
         bool use_gpu = true;
         std::string camera_model= "SIMPLE_PINHOLE";
     }option;

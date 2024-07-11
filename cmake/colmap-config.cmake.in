@@ -28,44 +28,56 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 
-if(IS_MSVC)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /W3")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3")
-    # Avoid pulling in too many header files through <windows.h>
-    add_definitions("-DWIN32_LEAN_AND_MEAN")
-elseif(IS_GNU OR IS_CLANG)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-endif()
+# Find package config for COLMAP library.
+#
+# The following variables are set by this config:
+#
+#   COLMAP_FOUND: TRUE if COLMAP is found.
+#   COLMAP_VERSION: COLMAP version.
+#
+# The colmap::colmap imported interface target is defined.
 
-if(CUDA_ENABLED)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --use_fast_math")
+@PACKAGE_INIT@
 
-    # Use a separate stream per thread to allow for concurrent kernel execution
-    # between multiple threads on the same device.
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} --default-stream per-thread")
+set(COLMAP_FOUND FALSE)
 
-    # Suppress warnings:
-    # ptxas warning : Stack size for entry function X cannot be statically determined.
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xptxas=-suppress-stack-size-warning")
-endif()
+# Set hints for finding dependency packages.
 
-add_subdirectory(controllers)
-add_subdirectory(estimators)
-add_subdirectory(exe)
-add_subdirectory(feature)
-add_subdirectory(geometry)
-add_subdirectory(image)
-add_subdirectory(math)
-add_subdirectory(mvs)
-add_subdirectory(optim)
-add_subdirectory(retrieval)
-add_subdirectory(scene)
-add_subdirectory(sensor)
-add_subdirectory(sfm)
-add_subdirectory(tools)
-add_subdirectory(util)
-add_subdirectory(dll)
-if (GUI_ENABLED)
-    add_subdirectory(ui)
-endif()
+set(FLANN_INCLUDE_DIR_HINTS @FLANN_INCLUDE_DIR_HINTS@)
+set(FLANN_LIBRARY_DIR_HINTS @FLANN_LIBRARY_DIR_HINTS@)
+
+set(LZ4_INCLUDE_DIR_HINTS @LZ4_INCLUDE_DIR_HINTS@)
+set(LZ4_LIBRARY_DIR_HINTS @LZ4_LIBRARY_DIR_HINTS@)
+
+set(FREEIMAGE_INCLUDE_DIR_HINTS @FREEIMAGE_INCLUDE_DIR_HINTS@)
+set(FREEIMAGE_LIBRARY_DIR_HINTS @FREEIMAGE_LIBRARY_DIR_HINTS@)
+
+set(METIS_INCLUDE_DIR_HINTS @METIS_INCLUDE_DIR_HINTS@)
+set(METIS_LIBRARY_DIR_HINTS @METIS_LIBRARY_DIR_HINTS@)
+
+set(GLEW_INCLUDE_DIR_HINTS @GLEW_INCLUDE_DIR_HINTS@)
+set(GLEW_LIBRARY_DIR_HINTS @GLEW_LIBRARY_DIR_HINTS@)
+
+# Find dependency packages.
+
+set(TEMP_CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${PACKAGE_PREFIX_DIR}/share/colmap/cmake)
+
+# Set the exported variables.
+
+set(COLMAP_FOUND TRUE)
+
+set(COLMAP_VERSION @COLMAP_VERSION@)
+
+set(OPENMP_ENABLED @OPENMP_ENABLED@)
+
+set(CUDA_ENABLED @CUDA_ENABLED@)
+set(CUDA_MIN_VERSION @CUDA_MIN_VERSION@)
+
+set(GUI_ENABLED @GUI_ENABLED@)
+
+set(CGAL_ENABLED @CGAL_ENABLED@)
+
+include(${PACKAGE_PREFIX_DIR}/share/colmap/colmap-targets.cmake)
+include(${PACKAGE_PREFIX_DIR}/share/colmap/cmake/FindDependencies.cmake)
+check_required_components(colmap)

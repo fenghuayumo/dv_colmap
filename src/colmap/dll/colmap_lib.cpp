@@ -33,9 +33,14 @@ auto ColmapSparseReconstruct::run() ->bool
 
     controller_ = std::make_shared<colmap::AutomaticReconstructionController>(
         _option, reconstruction_manager_);
-
-    controller_->Start();
-    controller_->Wait();
+    try {
+        controller_->Start();
+        controller_->Wait();
+    }
+    catch (...){
+        std::cout << "colmap handle throw a exception !!\n";
+        return false;
+    }
     if(controller_->GetSparseReconstructPhase() != 4) return false;
     return true;
 }

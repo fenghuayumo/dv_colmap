@@ -31,6 +31,7 @@
 
 #include "colmap/estimators/alignment.h"
 #include "colmap/scene/scene_clustering.h"
+#include "colmap/sfm/observation_manager.h"
 #include "colmap/util/misc.h"
 #include "colmap/util/threading.h"
 
@@ -62,9 +63,8 @@ void MergeClusters(const SceneClustering::Cluster& cluster,
       for (size_t j = 0; j < i; ++j) {
         const double kMaxReprojError = 8.0;
         const int num_reg_images_j = reconstructions[j]->NumRegImages();
-        if (MergeReconstructions(kMaxReprojError,
-                                 *reconstructions[j],
-                                 reconstructions[i].get())) {
+        if (MergeAndFilterReconstructions(
+                kMaxReprojError, *reconstructions[j], *reconstructions[i])) {
           LOG(INFO) << StringPrintf(
               "=> Merged clusters with %d and %d images into %d images",
               num_reg_images_i,
@@ -171,6 +171,7 @@ void HierarchicalMapperController::Run() {
       std::max(1, num_eff_threads / num_eff_workers);
 
   // Function to reconstruct one cluster using incremental mapping.
+  std::mutex c_mutex;
   auto ReconstructCluster =
       [&, this](const SceneClustering::Cluster& cluster,
                 std::shared_ptr<ReconstructionManager> reconstruction_manager) {
@@ -191,12 +192,14 @@ void HierarchicalMapperController::Run() {
               image_id_to_name.at(image_id));
         }
 
-        IncrementalMapperController mapper(std::move(incremental_options),
+        auto mapper = std::make_shared<IncrementalMapperController>(std::move(incremental_options),
                                            options_.image_path,
                                            options_.database_path,
                                            std::move(reconstruction_manager));
-        mapper.Run();
-        progress_ = mapper.GetProgress();
+        c_mutex.try_lock();
+        mappers.emplace_back(mapper);
+        c_mutex.unlock();
+        mapper->Run();
       };
 
   // Start reconstructing the bigger clusters first for better resource usage.
@@ -227,9 +230,11 @@ void HierarchicalMapperController::Run() {
   // Merge clusters
   //////////////////////////////////////////////////////////////////////////////
 
-  PrintHeading1("Merging clusters");
+  if (leaf_clusters.size() > 1) {
+    PrintHeading1("Merging clusters");
 
-  MergeClusters(*scene_clustering.GetRootCluster(), &reconstruction_managers);
+    MergeClusters(*scene_clustering.GetRootCluster(), &reconstruction_managers);
+  }
 
   THROW_CHECK_EQ(reconstruction_managers.size(), 1);
   THROW_CHECK_GT(
@@ -239,4 +244,14 @@ void HierarchicalMapperController::Run() {
   run_timer.PrintMinutes();
 }
 
+float HierarchicalMapperController::GetProgress()
+{
+  if( mappers.empty() )
+    return 0.0f;
+  float progress = 1.0f;
+  for(auto m : mappers){
+      progress = std::min(progress, m->GetProgress());
+  }
+  return progress;
+}
 }  // namespace colmap

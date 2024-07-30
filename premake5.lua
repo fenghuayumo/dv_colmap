@@ -94,5 +94,7 @@ workspace( settings.workspace_name )
 	include "src/thirdparty/PoissonRecon/premake5"
 	include "src/thirdparty/SiftGPU/premake5"
 	include "src/thirdparty/VLFeat/premake5"
+	include "src/thirdparty/PoseLib/premake5"
 	include "src/colmap/dll/premake5"
 	include "src/colmap/colmap_exe/premake5"
+	include "src/glomap/premake5"

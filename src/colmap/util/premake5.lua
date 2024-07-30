@@ -56,7 +56,7 @@ project "colmap_util"
     cudaRelocatableCode "On"
    
     -- Let's compile for all supported architectures (and also in parallel with -t0)
-    cudaCompilerOptions {"-arch=sm_70", "-t0", "-std=c++17"} 
+cudaCompilerOptions {"--generate-code=arch=compute_60,code=[compute_60,sm_60] --generate-code=arch=compute_70,code=[compute_70,sm_70] --generate-code=arch=compute_80,code=[compute_80,sm_80]", "-t0", "-std=c++17"} 
     cudaFastMath "On"
     cudaIntDir "bin/cudaobj/%{cfg.buildcfg}"
 	
